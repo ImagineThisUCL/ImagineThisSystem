@@ -2,7 +2,7 @@ version: '3'
 services:
 
   imaginethis-db:
-    build: ./imaginethis-db
+    build: ./ImagineThisDatabase
     container_name: imaginethis-db
     volumes:
       - imaginethis-db-vol:/var/lib/postgresql/data
@@ -10,7 +10,7 @@ services:
       - 5432:5432
 
   imaginethis-backend:
-    build: ./imaginethis-backend
+    build: ./ImagineThisServer
     container_name: imaginethis-backend
     environment:
       - DB_SERVER=imaginethis-db
@@ -20,7 +20,7 @@ services:
       - imaginethis-db
 
   imaginethis-frontend:
-    build: ./imaginethis-frontend
+    build: ./ImagineThisWeb
     container_name: imaginethis-frontend
     environment:
       - BACKEND_SERVER=imaginethis-backend
