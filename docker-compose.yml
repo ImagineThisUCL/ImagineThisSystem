@@ -1,0 +1,33 @@
+version: '3'
+services:
+
+  imaginethis-db:
+    build: ./imaginethis-db
+    container_name: imaginethis-db
+    volumes:
+      - imaginethis-db-vol:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  imaginethis-backend:
+    build: ./imaginethis-backend
+    container_name: imaginethis-backend
+    environment:
+      - DB_SERVER=imaginethis-db
+    ports:
+      - 8080:8080
+    links:
+      - imaginethis-db
+
+  imaginethis-frontend:
+    build: ./imaginethis-frontend
+    container_name: imaginethis-frontend
+    environment:
+      - BACKEND_SERVER=imaginethis-backend
+    ports:
+      - 80:80
+    links:
+      - imaginethis-backend
+
+volumes:
+  imaginethis-db-vol:
