@@ -13,7 +13,11 @@ services:
     build: ./ImagineThisServer
     container_name: imaginethis-backend
     environment:
-      - DB_SERVER=imaginethis-db
+      - IMAGINE_THIS_DB_HOST=postgresql://imaginethis-db
+      - IMAGINE_THIS_DB_PORT=5432
+      - IMAGINE_THIS_DB_NAME=imaginethis
+      - IMAGINE_THIS_USERNAME=imaginethis
+      - IMAGINE_THIS_PASSWORD=incorrect
     ports:
       - 8080:8080
     links:
