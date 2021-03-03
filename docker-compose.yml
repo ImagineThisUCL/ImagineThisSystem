@@ -9,8 +9,6 @@ services:
         - POSTGRES_USER=
         - POSTGRES_PASSWORD=
     container_name: imaginethis-db
-    environment: 
-      POSTGRES_DB
     volumes:
       - imaginethis-db-vol:/var/lib/postgresql/data
     ports:
