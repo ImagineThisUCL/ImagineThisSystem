@@ -1,7 +1,7 @@
 version: '3'
 services:
 
-  imaginethis-db:
+  db:
     build: 
       context: ./ImagineThisDatabase
       args:
@@ -14,7 +14,7 @@ services:
     ports:
       - 5432
 
-  imaginethis-backend:
+  backend:
     build: ./ImagineThisServer
     container_name: imaginethis-backend
     environment:
@@ -26,12 +26,13 @@ services:
       - IMAGINE_THIS_PASSWORD=
       - CORS_ORIGIN=
       - SPRING_PROFILES_ACTIVE=prod
+      - APP_DIR= # The full path to source code
     ports:
       - 8080:8080
     links:
       - imaginethis-db
 
-  imaginethis-frontend:
+  frontend:
     build: 
       context: ./ImagineThisWeb
       # setting up build time environment variable
@@ -45,6 +46,12 @@ services:
       - 80:80
     links:
       - imaginethis-backend
+  
+  # We want to build the "expo" container as it will be used for asynchronous publishing jobs
+  expo: 
+    build:
+      context: ./ImagineThisExpo
+      container_name: imaginethis-expo
 
 volumes:
   imaginethis-db-vol:
