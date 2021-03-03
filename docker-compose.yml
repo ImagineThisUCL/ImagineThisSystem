@@ -2,8 +2,15 @@ version: '3'
 services:
 
   imaginethis-db:
-    build: ./ImagineThisDatabase
+    build: 
+      context: ./ImagineThisDatabase
+      args:
+        - POSTGRES_DB=
+        - POSTGRES_USER=
+        - POSTGRES_PASSWORD=
     container_name: imaginethis-db
+    environment: 
+      POSTGRES_DB
     volumes:
       - imaginethis-db-vol:/var/lib/postgresql/data
     ports:
@@ -15,6 +22,7 @@ services:
     environment:
       - IMAGINE_THIS_DB_HOST=postgresql://imaginethis-db
       - IMAGINE_THIS_DB_PORT=5432
+      # The following DB configurations should be the same as the args from imaginethis-db
       - IMAGINE_THIS_DB_NAME=
       - IMAGINE_THIS_USERNAME=
       - IMAGINE_THIS_PASSWORD=
