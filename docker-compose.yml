@@ -20,8 +20,6 @@ services:
       - IMAGINE_THIS_PASSWORD=
       - CORS_ORIGIN=
       - SPRING_PROFILES_ACTIVE=prod
-      # absolute location to store generated code
-      - PWD=
     ports:
       - 8080:8080
     links:
