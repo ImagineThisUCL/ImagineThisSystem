@@ -2,28 +2,45 @@ version: '3'
 services:
 
   imaginethis-db:
-    build: ./ImagineThisDatabase
+    build: 
+      context: ./ImagineThisDatabase
+      args:
+        - POSTGRES_DB=
+        - POSTGRES_USER=
+        - POSTGRES_PASSWORD=
     container_name: imaginethis-db
     volumes:
       - imaginethis-db-vol:/var/lib/postgresql/data
     ports:
-      - 5432:5432
+      - 5432
 
   imaginethis-backend:
     build: ./ImagineThisServer
     container_name: imaginethis-backend
     environment:
-      - DB_SERVER=imaginethis-db
+      - IMAGINE_THIS_DB_HOST=postgresql://imaginethis-db
+      - IMAGINE_THIS_DB_PORT=5432
+      # The following DB configurations should be the same as the args from imaginethis-db
+      - IMAGINE_THIS_DB_NAME=
+      - IMAGINE_THIS_USERNAME=
+      - IMAGINE_THIS_PASSWORD=
+      - CORS_ORIGIN=
+      - SPRING_PROFILES_ACTIVE=prod
     ports:
       - 8080:8080
     links:
       - imaginethis-db
 
   imaginethis-frontend:
-    build: ./ImagineThisWeb
+    build: 
+      context: ./ImagineThisWeb
+      # setting up build time environment variable
+      args: 
+        - REACT_APP_BACKEND_ADDRESS=
+        - REACT_APP_DOMAIN=
     container_name: imaginethis-frontend
     environment:
-      - BACKEND_SERVER=imaginethis-backend
+      - NODE_ENV=production
     ports:
       - 80:80
     links:
