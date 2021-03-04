@@ -26,8 +26,6 @@ services:
       - IMAGINE_THIS_PASSWORD=
       - CORS_ORIGIN=
       - SPRING_PROFILES_ACTIVE=prod
-      - APP_OUTPUT_FOLDER= # Full path to directory where will generated code be stored
-      - APP_TEMPLATES_FOLDER= # Full path to /templates folder of React-Native template components
     ports:
       - 8080:8080
     links:
