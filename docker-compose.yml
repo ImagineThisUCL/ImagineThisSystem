@@ -1,7 +1,7 @@
 version: '3'
 services:
 
-  db:
+  imaginethis-db:
     build: 
       context: ./ImagineThisDatabase
       args:
@@ -14,7 +14,7 @@ services:
     ports:
       - 5432
 
-  backend:
+  imaginethis-backend:
     build: ./ImagineThisServer
     container_name: imaginethis-backend
     environment:
@@ -32,7 +32,7 @@ services:
     links:
       - imaginethis-db
 
-  frontend:
+  imaginethis-frontend:
     build: 
       context: ./ImagineThisWeb
       # setting up build time environment variable
@@ -48,10 +48,10 @@ services:
       - imaginethis-backend
   
   # We want to build the "expo" container as it will be used for asynchronous publishing jobs
-  expo: 
+  imaginethis-expo: 
     build:
       context: ./ImagineThisExpo
-      container_name: imaginethis-expo
+    container_name: imaginethis-expo
 
 volumes:
   imaginethis-db-vol:

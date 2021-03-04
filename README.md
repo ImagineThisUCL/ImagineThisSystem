@@ -14,4 +14,4 @@ git clone git@github.com:ImagineThisUCL/ImagineThisExpo.git
 
 2. Build images `docker-compose build`
 
-3. Run functional containers `docker-compose up -d`
+3. Run functional containers `docker-compose up -d imaginethis-frontend`
