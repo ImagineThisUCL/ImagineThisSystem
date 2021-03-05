@@ -45,6 +45,12 @@ services:
       - 80:80
     links:
       - imaginethis-backend
+  
+  # We want to build the "expo" container as it will be used for asynchronous publishing jobs
+  imaginethis-expo: 
+    build:
+      context: ./ImagineThisExpo
+    container_name: imaginethis-expo
 
 volumes:
   imaginethis-db-vol:

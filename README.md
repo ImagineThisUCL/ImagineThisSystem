@@ -9,13 +9,9 @@ This repository contains information about how to run the entire ImagineThis sys
 git clone git@github.com:ImagineThisUCL/ImagineThisWeb.git
 git clone git@github.com:ImagineThisUCL/ImagineThisServer.git
 git clone git@github.com:ImagineThisUCL/ImagineThisDatabase.git
+git clone git@github.com:ImagineThisUCL/ImagineThisExpo.git
 ```
 
-2. Build backend system
-```sh
-cd ImagineThisServer
-mvn install
-cd ..
-```
+2. Build images `docker-compose build`
 
-3. Run `docker-compose up -d`
+3. Run functional containers `docker-compose up -d imaginethis-frontend`
