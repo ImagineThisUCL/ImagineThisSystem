@@ -60,3 +60,7 @@ services:
 
 volumes:
   imaginethis-db-vol:
+
+networks:
+  default:
+    name: imaginethis-network
