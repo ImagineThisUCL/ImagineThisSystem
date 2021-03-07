@@ -50,7 +50,13 @@ services:
   imaginethis-expo: 
     build:
       context: ./ImagineThisExpo
-    container_name: imaginethis-expo
+      args:
+        - EXPO_TOKEN=
+        - DB_HOST=
+        - DB_PORT=
+        - DB_NAME=
+        - DB_USERNAME=
+        - DB_PASSWORD=
 
 volumes:
   imaginethis-db-vol:
