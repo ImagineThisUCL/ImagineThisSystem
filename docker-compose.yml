@@ -30,6 +30,7 @@ services:
       - 8080:8080
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock" # Needed for backend to connect to host Docker daemon
+      - imaginethis-backend-output-storage:/app/OutputStorage
     links:
       - imaginethis-db
 
@@ -62,6 +63,7 @@ services:
 
 volumes:
   imaginethis-db-vol:
+  imaginethis-backend-output-storage:
 
 networks:
   default:
