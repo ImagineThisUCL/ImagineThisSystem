@@ -5,6 +5,7 @@ services:
     build: 
       context: ./ImagineThisDatabase
       args:
+        # Set up as you wish. You will reuse these args below.
         - POSTGRES_DB=
         - POSTGRES_USER=
         - POSTGRES_PASSWORD=
@@ -26,6 +27,11 @@ services:
       - IMAGINE_THIS_PASSWORD=
       - CORS_ORIGIN=
       - SPRING_PROFILES_ACTIVE=prod
+      # Use credintials of Expo user that has access to "imaginethis" Expo organization account
+      - EXPO_ACCOUNT_USERNAME=
+      - EXPO_ACCOUNT_PASSWORD=
+      # Expo organization ID under which ImagineThis publishes apps. Our "imaginethis" account has id: d296ebec-a692-4cbe-ae64-cde6e8ddb7a2
+      - EXPO_ORGANIZATION_ID=
     ports:
       - 8080:8080
     volumes:
@@ -38,7 +44,8 @@ services:
     build: 
       context: ./ImagineThisWeb
       # setting up build time environment variable
-      args: 
+      args:
+        # If testing locally you can use http://localhost (append :8080 for backend). In production use IP address of server.
         - REACT_APP_BACKEND_ADDRESS=
         - REACT_APP_DOMAIN=
     container_name: imaginethis-frontend
@@ -54,9 +61,11 @@ services:
     build:
       context: ./ImagineThisExpo
       args:
+        # Token for "imaginethis" organization account in Expo. You can read in our Trello board
         - EXPO_TOKEN=
-        - DB_HOST=
-        - DB_PORT=
+        - DB_HOST=imaginethis-db
+        - DB_PORT=5432
+        # The following DB configurations should be the same as the args from imaginethis-db
         - DB_NAME=
         - DB_USERNAME=
         - DB_PASSWORD=
