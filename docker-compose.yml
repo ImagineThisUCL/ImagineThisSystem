@@ -48,6 +48,8 @@ services:
         # If testing locally you can use http://localhost (append :8080 for backend). In production use IP address of server.
         - REACT_APP_BACKEND_ADDRESS=
         - REACT_APP_DOMAIN=
+        - REACT_APP_CLIENT_ID=
+        - REACT_APP_CLIENT_SECRET=
     container_name: imaginethis-frontend
     environment:
       - NODE_ENV=production
