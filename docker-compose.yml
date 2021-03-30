@@ -2,12 +2,18 @@ version: '3'
 services:
 
   imaginethis-db:
-    build: ./ImagineThisDatabase
+    build: 
+      context: ./ImagineThisDatabase
+      args:
+        # Set up as you wish. You will reuse these args below.
+        - POSTGRES_DB=
+        - POSTGRES_USER=
+        - POSTGRES_PASSWORD=
     container_name: imaginethis-db
     volumes:
       - imaginethis-db-vol:/var/lib/postgresql/data
     ports:
-      - 5432:5432
+      - 5432
 
   imaginethis-backend:
     build: ./ImagineThisServer
@@ -15,23 +21,61 @@ services:
     environment:
       - IMAGINE_THIS_DB_HOST=postgresql://imaginethis-db
       - IMAGINE_THIS_DB_PORT=5432
-      - IMAGINE_THIS_DB_NAME=imaginethis
-      - IMAGINE_THIS_USERNAME=imaginethis
-      - IMAGINE_THIS_PASSWORD=incorrect
+      # The following DB configurations should be the same as the args from imaginethis-db
+      - IMAGINE_THIS_DB_NAME=
+      - IMAGINE_THIS_USERNAME=
+      - IMAGINE_THIS_PASSWORD=
+      - CORS_ORIGIN=
+      - SPRING_PROFILES_ACTIVE=prod
+      # Use credintials of Expo user that has access to "imaginethis" Expo organization account
+      - EXPO_ACCOUNT_USERNAME=
+      - EXPO_ACCOUNT_PASSWORD=
+      # Expo organization ID under which ImagineThis publishes apps. Our "imaginethis" account has id: d296ebec-a692-4cbe-ae64-cde6e8ddb7a2
+      - EXPO_ORGANIZATION_ID=
     ports:
       - 8080:8080
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock" # Needed for backend to connect to host Docker daemon
+      - imaginethis-backend-output-storage:/app/OutputStorage
     links:
       - imaginethis-db
 
   imaginethis-frontend:
-    build: ./ImagineThisWeb
+    build: 
+      context: ./ImagineThisWeb
+      # setting up build time environment variable
+      args:
+        # If testing locally you can use http://localhost (append :8080 for backend). In production use IP address of server.
+        - REACT_APP_BACKEND_ADDRESS=
+        - REACT_APP_DOMAIN=
+        - REACT_APP_CLIENT_ID=
+        - REACT_APP_CLIENT_SECRET=
     container_name: imaginethis-frontend
     environment:
-      - BACKEND_SERVER=imaginethis-backend
+      - NODE_ENV=production
     ports:
       - 80:80
     links:
       - imaginethis-backend
+  
+  # We want to build the "expo" container as it will be used for asynchronous publishing jobs
+  imaginethis-expo: 
+    build:
+      context: ./ImagineThisExpo
+      args:
+        # Token for "imaginethis" organization account in Expo. You can read in our Trello board
+        - EXPO_TOKEN=
+        - DB_HOST=imaginethis-db
+        - DB_PORT=5432
+        # The following DB configurations should be the same as the args from imaginethis-db
+        - DB_NAME=
+        - DB_USERNAME=
+        - DB_PASSWORD=
 
 volumes:
   imaginethis-db-vol:
+  imaginethis-backend-output-storage:
+
+networks:
+  default:
+    name: imaginethis-network
